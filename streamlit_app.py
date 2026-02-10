@@ -70,7 +70,7 @@ st.markdown(
     .stApp {
         background: linear-gradient(135deg, #0a0e27 0%, #1a1b3d 25%, #2d1b4e 50%, #1a1b3d 75%, #0a0e27 100%);
         background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+        animation: gradientShift 13s ease infinite;
         font-family: 'Sora', sans-serif;
     }
 
@@ -100,20 +100,38 @@ st.markdown(
     }
 
     .glass-card {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        background: linear-gradient(
+            135deg,
+            rgba(255,255,255,0.07) 0%,
+            rgba(255,255,255,0.035) 100%
+        );
+        backdrop-filter: blur(18px) saturate(160%);
+        -webkit-backdrop-filter: blur(18px) saturate(160%);
         border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255,255,255,0.16);
         box-shadow:
-            0 8px 32px 0 rgba(31, 38, 135, 0.37),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-            0 0 0 1px rgba(0, 0, 0, 0.1);
+            0 12px 28px rgba(0,0,0,0.38),
+            inset 0 1px 0 rgba(255,255,255,0.10);
         padding: 2rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+        transition: all 0.35s ease;
     }
+
+    .glass-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            180deg,
+            rgba(255,255,255,0.08) 0%,
+            rgba(255,255,255,0.02) 25%,
+            rgba(255,255,255,0.00) 60%
+        );
+        opacity: 0.9;
+    }
+
 
     .glass-card::before {
         content: '';
@@ -122,6 +140,7 @@ st.markdown(
         left: -100%;
         width: 100%;
         height: 100%;
+        opacity: 0.55;
         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
         transition: left 0.5s;
     }
@@ -129,12 +148,27 @@ st.markdown(
     .glass-card:hover::before { left: 100%; }
 
     .glass-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-2px);
         box-shadow:
             0 16px 48px 0 rgba(31, 38, 135, 0.5),
             inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
             0 0 0 1px rgba(102, 126, 234, 0.3);
         border-color: rgba(102, 126, 234, 0.3);
+    }
+
+    h1, h2, h3 {
+        letter-spacing: -0.01em;
+    }
+
+    h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    h3 {
+        font-size: 1.15rem !important;
+        color: rgba(255,255,255,0.88) !important;
+        margin-bottom: 0.5rem !important;
     }
 
     .metric-card {
@@ -363,6 +397,43 @@ st.markdown(
     margin: 0.25rem 0.35rem 0 0;
     }
 
+    .section-label {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    }
+
+    /* Expander container */
+    [data-testid="stExpander"] {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.75rem;
+    }
+
+    /* Expander header text */
+    [data-testid="stExpander"] summary {
+    color: rgba(255,255,255,0.88) !important;
+    font-weight: 650 !important;
+    }
+
+    /* Give each radio option a pill-like hit area */
+    [data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {
+    border-radius: 12px;
+    padding: 0.45rem 0.6rem;
+    margin: 0.15rem 0;
+    }
+
+    /* Highlight selected option */
+    [data-testid="stSidebar"] .stRadio div[role="radiogroup"] label:has(input:checked) {
+    background: rgba(102,126,234,0.16);
+    border: 1px solid rgba(102,126,234,0.28);
+    }
+
 </style>
 """,
     unsafe_allow_html=True,
@@ -571,7 +642,8 @@ if page == "Home":
         '<p style="font-size: 1rem; color: rgba(255,255,255,0.5); margin-bottom: 3rem;">Identify high-intent buyers in real-time • Optimize marketing spend • Maximize conversion efficiency</p>',
         unsafe_allow_html=True,
     )
-
+    st.markdown('<div class="section-label">Platform Overview</div>', unsafe_allow_html=True)
+    
     st.markdown('<div class="glass-card tight">', unsafe_allow_html=True)
     st.markdown("### Executive Summary")
     st.markdown(
@@ -600,6 +672,7 @@ if page == "Home":
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("---")
+    st.markdown('<div class="section-label">Core Capabilities</div>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2, gap="large")
 
@@ -684,6 +757,7 @@ if page == "Home":
 
     if isinstance(metrics, dict):
         st.markdown("---")
+        st.markdown('<div class="section-label">Model Evidence</div>', unsafe_allow_html=True)
         st.markdown("### Model Performance Indicators")
         st.markdown(
             '<p style="color: rgba(255,255,255,0.6); margin-bottom: 2rem;">Validated on 12,330 real e-commerce sessions with rigorous cross-validation</p>',
@@ -751,7 +825,7 @@ elif page == "Prediction":
         st.error(f"⚠️ {msg}")
         st.stop()
 
-    st.markdown("### Sample Scenarios")
+    st.markdown('<div class="section-label">Sample Scenarios</div>', unsafe_allow_html=True)
     st.markdown(
         '<p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Click to load pre-configured examples and see how the model performs</p>',
         unsafe_allow_html=True,
@@ -792,7 +866,7 @@ elif page == "Prediction":
         }
 
     st.markdown("---")
-    st.markdown("### Session Parameters")
+    st.markdown('<div class="section-label">Session Parameters</div>', unsafe_allow_html=True)
 
     with st.form("pred_form"):
         a, b, c = st.columns(3)
@@ -862,10 +936,11 @@ elif page == "Prediction":
             prob = float(model.predict_proba(input_df)[0][1])
         except Exception as e:
             st.error(f"❌ Prediction failed: {e}")
-            st.info("💡 This usually means your input columns/types do not match what the model pipeline was trained on.")
+            st.info("This usually means your input columns/types do not match what the model pipeline was trained on.")
             st.stop()
 
         st.markdown("---")
+        st.markdown('<div class="section-label">Prediction Output</div>', unsafe_allow_html=True)
         st.markdown("### Prediction Results")
 
         r1, r2 = st.columns([1.2, 1])
@@ -922,6 +997,7 @@ elif page == "Performance":
         st.warning("Performance metrics not available. Please ensure model_artifacts/final_metrics.pkl exists.")
         st.stop()
 
+    st.markdown('<div class="section-label">Performance Summary</div>', unsafe_allow_html=True)
     st.markdown("### Core Metrics")
     m1, m2, m3, m4 = st.columns(4)
     with m1:
@@ -934,6 +1010,7 @@ elif page == "Performance":
         st.markdown(f'<div class="metric-card"><div class="metric-label">Accuracy</div><div class="metric-value">{safe_metric_value(metrics,"accuracy"):.1%}</div></div>', unsafe_allow_html=True)
 
     st.markdown("---")
+    st.markdown('<div class="section-label">Error Breakdown</div>', unsafe_allow_html=True)
     st.markdown("### Confusion Matrix Analysis")
     st.markdown(
         '<p style="color: rgba(255,255,255,0.6); margin-bottom: 2rem;">Detailed breakdown of model predictions vs. actual outcomes</p>',
@@ -988,6 +1065,7 @@ elif page == "ROI":
         unsafe_allow_html=True,
     )
 
+    st.markdown('<div class="section-label">Inputs</div>', unsafe_allow_html=True)
     st.markdown('<div class="glass-card tight">', unsafe_allow_html=True)
     st.markdown("### Your Business Parameters")
     st.markdown(
@@ -1017,6 +1095,7 @@ elif page == "ROI":
         recall = max(recall, 1e-9)
 
     st.markdown("---")
+    st.markdown('<div class="section-label">Results</div>', unsafe_allow_html=True)
     st.markdown("### Projected Financial Impact")
 
     baseline_conversion = 0.015
@@ -1083,6 +1162,7 @@ elif page == "ROI":
         )
 
     st.markdown("---")
+    st.markdown('<div class="section-label">Assumptions & Interpretation</div>', unsafe_allow_html=True)
     st.markdown('<div class="glass-card tight">', unsafe_allow_html=True)
     st.markdown("#### Understanding Your Results")
     st.markdown(
@@ -1129,6 +1209,7 @@ else:
         st.error(f"⚠️ {msg}")
         st.stop()
 
+    st.markdown('<div class="section-label">Requirements</div>', unsafe_allow_html=True)
     with st.expander("CSV Format Requirements", expanded=False):
         st.markdown(
             """
@@ -1149,6 +1230,7 @@ else:
 """
         )
 
+    st.markdown('<div class="section-label">Input Data</div>', unsafe_allow_html=True)
     st.markdown("### Upload Session Data")
     uploaded = st.file_uploader("Upload CSV file with session data", type=["csv"])
 
@@ -1197,6 +1279,7 @@ else:
                     st.success("Batch processing complete!")
 
                     st.markdown("---")
+                    st.markdown('<div class="section-label">Outputs</div>', unsafe_allow_html=True)
                     st.markdown("### Results Summary")
 
                     high_intent = int((out["Probability"] > 0.7).sum())
@@ -1251,6 +1334,7 @@ else:
                         )
 
                     st.markdown("---")
+                    st.markdown('<div class="section-label">Detailed Results</div>', unsafe_allow_html=True)
                     st.markdown("### Full Results Table")
                     st.markdown('<div class="glass-card tight">', unsafe_allow_html=True)
                     st.dataframe(out, use_container_width=True, height=400)
